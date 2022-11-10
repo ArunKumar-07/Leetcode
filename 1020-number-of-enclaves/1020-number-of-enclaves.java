@@ -3,18 +3,14 @@ class Solution {
         int n = grid.length;
         int m = grid[0].length;
         int count =0;
-        for( int i=0;i<m;i++){
-            if(grid[0][i]==1)
-                dfs(grid,0,i);
-            if(grid[n-1][i]==1)
-                dfs(grid,n-1,i);
+    
+        for( int i=0;i<n;i++){
+            for( int j=0;j<m;j++){
+                if(grid[i][j]==1 && (i==0 || j ==0 || i ==grid.length -1|| j==grid[0].length-1))
+                    dfs(grid,i,j);
+            }
         }
-        for( int j=0;j<n;j++){
-            if(grid[j][0]==1)
-                dfs(grid,j,0);
-            if(grid[j][m-1]==1)
-                dfs(grid,j,m-1);
-        }
+        
         for( int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 if(grid[i][j]==1){
