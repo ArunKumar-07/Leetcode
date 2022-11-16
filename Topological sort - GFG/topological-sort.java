@@ -54,40 +54,39 @@ class Main {
 
 // } Driver Code Ends
 
-
-/*Complete the function below*/
-
-
+//Kahn's algorithm
 class Solution
 {
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
-      boolean[] visit = new boolean[V];
-      Arrays.fill(visit,false);
-      Stack<Integer> st=new Stack<>();
-      for( int i=0;i<V;i++){
-          if(visit[i]==false){
-              dfs(adj,i,visit,st);
-          }
-      }
-      int[] ans = new int[V];
-      int i=0;
-      while(!st.isEmpty()){
-          ans[i++]=st.peek();
-          st.pop();
-      }
-      return ans;
-      
-      
-    }
-    private static void dfs( ArrayList<ArrayList<Integer>> adj, int node,boolean[] visit,Stack<Integer> st){
-        visit[node]=true;
-        for( int it: adj.get(node)){
-            if(visit[it]==false){
-                dfs(adj,it,visit,st);
+        int[] inDegree = new int[V];
+        for( int i=0;i<V;i++){
+            for(int it : adj.get(i)){
+                inDegree[it]++;
             }
         }
-        st.push(node);
+        
+        Queue<Integer> qu = new LinkedList<>();
+        for( int i=0;i<V;i++){
+            if(inDegree[i]==0){
+                qu.add(i);
+            }
+        }
+        int[] topSort = new int[V];
+        int i =0;
+        while(!qu.isEmpty()){
+            int node = qu.peek();
+            qu.remove();
+            topSort[i++]=node;
+            //remove the inDegree
+            for( int it : adj.get(node)){
+                inDegree[it]--;
+                if(inDegree[it]==0){
+                    qu.add(it);
+                }
+            }
+        }
+        return topSort;
     }
 }
