@@ -1,22 +1,31 @@
 class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n =obstacleGrid[0].length;
+        int n =obstacleGrid.length;
+        int m =obstacleGrid[0].length;
+        int[][] dp = new int[n][m];
         
-        int[][] dp = new int[m][n];
-        for(int[] no : dp){
-            Arrays.fill(no,-1);
+        for( int i=0;i<n;i++){
+            for( int j=0;j<m;j++){
+                if( obstacleGrid[i][j]==1){
+                    dp[i][j]=0;
+                    continue;
+                }
+                if(i==0 && j==0 ){
+                dp[i][j]=1;
+                    continue ;
+                }
+                int down=0;
+                int right=0;
+                if(i >0 && i<n){
+                    down=dp[i-1][j];
+                }
+                if(j>0 && j<m ){
+                    right=dp[i][j-1];
+                }
+                dp[i][j]=down+right;
+            }
         }
-        return findPath(obstacleGrid,0,0,m,n,dp);
-    }
-    static int findPath(int[][] arr, int i , int  j , int m , int n,int[][] dp){
-          if(i >=m || j >= n || arr[i][j]==1 ) return 0;
-          if(i==m-1 &&  j==n-1 ) return 1;
-        if(dp[i][j]!=-1) return dp[i][j];
-      int process=findPath(arr,i,j+1,m,n,dp);
-      int unProcess=findPath(arr,i+1,j,m,n,dp);
-      return  dp[i][j]=process+unProcess;
-
-
+    return dp[n-1][m-1];
+        
     }
 }
