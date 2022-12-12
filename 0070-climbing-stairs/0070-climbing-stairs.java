@@ -1,13 +1,17 @@
 class Solution {
+    
     public int climbStairs(int n) {
-        if(n<=1) return n;
-        int prev=1;
-        int prev2=2;
-        for( int i=3;i<=n;i++){
-            int newValue=prev+prev2;
-            prev=prev2;
-            prev2=newValue;
-        }
-        return prev2;
+        int[] dp=new int[n+1];
+        return find(n,dp);
+    }
+    int find(int n,int[] dp ){
+        // if(n==1) dp[n]=1;
+        // if(n==2) dp[n]=2;
+        if(n<=1) return 1;
+        if(dp[n]!=0) return dp[n]; 
+        int left = find(n-1,dp);
+        int right = find(n-2,dp);
+        return dp[n]=left+right;
+        
     }
 }
