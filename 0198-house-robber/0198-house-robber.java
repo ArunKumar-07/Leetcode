@@ -1,17 +1,16 @@
 class Solution {
     public int rob(int[] nums) {
-        int n =nums.length-1;
-       
-        int[] dp=new int[n+1];
-        Arrays.fill(dp,-1);
-        return find(nums,dp,n);
-    }
-    int find(int[] nums,int[] dp,int n){
-        if(n==0) return nums[n];
-        if(n<1) return 0;
-        if(dp[n]!=-1) return dp[n];
-        int process=nums[n]+find(nums,dp,n-2);
-        int unProcess=0+find(nums,dp,n-1);
-        return dp[n]=Math.max(process,unProcess);
+        int n=nums.length;
+        if(n==1) return nums[0];
+        if(n==2) Math.max(nums[0],nums[1]);
+        
+        int[] dp= new int[n+1];
+        dp[0]=nums[0];
+        dp[1]=Math.max(nums[0],nums[1]);
+        
+        for( int i=2;i<n;i++){
+            dp[i]=Math.max(nums[i]+dp[i-2],dp[i-1]);
+        }
+        return dp[n-1];
     }
 }
